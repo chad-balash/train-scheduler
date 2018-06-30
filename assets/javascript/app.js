@@ -57,7 +57,7 @@ $(document).ready(function () {
     });
 
   });
-
+  // Get added info from dB
   database.ref().on('child_added', function (snapshot) {
     let value = snapshot.val();
     console.log(value);
@@ -66,6 +66,7 @@ $(document).ready(function () {
     console.log(value.time);
     console.log(value.frequency);
 
+    //setting variables
     let initialStartTime = value.time;
     let timeFrequency = value.frequency;
     let nextTrain = gettingTimeTrain(initialStartTime, timeFrequency);
@@ -90,25 +91,25 @@ $(document).ready(function () {
     timeFrequency = timeFrequency; //reconfirm the timeFrequency variable is recognized for future functions
     //Converting now and startTime to minutes
     let sTime = convert(startTime);
-    console.log('Start Time in minutes: ' + startTime);
+    // console.log('Start Time in minutes: ' + startTime);
     let nTime = convert(now);
-    console.log('Now in minutes: ' + now);
+    // console.log('Now in minutes: ' + now);
     //Calling function to get the next Train Array/Information
     let newTrain = nextTrain(sTime, nTime, timeFrequency);
-    console.log(newTrain);
+    // console.log(newTrain);
     //Calls function to set up values for the last 2 columns in table
     nextTrainTime = revert(newTrain);
     trainWillArrive = newTrain[1];
-    console.log(revert);
+    // console.log(revert);
     let finalResults = [];
     finalResults.push(nextTrainTime, trainWillArrive);
-    console.log(finalResults);
+    // console.log(finalResults);
     return finalResults
-
   }
+  
   //revert minutes back to military time
   function revert(a) {
-    console.log(a);
+    // console.log(a);
     let time = parseFloat(a[0] / 60);
     console.log(time)
     timeH = parseInt(time);
@@ -117,35 +118,33 @@ $(document).ready(function () {
     if (timeM < 10) {
       timeM = '0' + timeM;
     }
-    console.log(`${timeH}:${timeM}`);
+    // console.log(`${timeH}:${timeM}`);
     let timerz = `${timeH}:${timeM}`
     return timerz;
   }
 
   //convert string to minutes
   function convert(e) {
-    console.log(e);
+    // console.log(e);
     let time = e.split(':');
     return parseInt((time[0] * 60)) + parseInt((time[1]));
-    // console.log(timer)
   }
 
-  // use convert fxn to get the next train info
+  // use convert function to get the next train info
   function nextTrain(sTime, nTime, timeFrequency) {
-    console.log("stime", sTime);
+    // console.log("stime", sTime);
 
     let nextTrainArray = [];
-    console.log(timeFrequency + 'freq2' + typeof timeFrequency);
+    // console.log(timeFrequency + 'freq2' + typeof timeFrequency);
     let x = parseInt(timeFrequency);
     //for loop to find next train
     for (let index = sTime; index < 1440; index += x) {
-      console.log(index);
+      // console.log(index);
       if (index > nTime) {
-        console.log('boo');
         let newTrainz = index;
-        console.log('newTrainz= ' + newTrainz);
+        // console.log('newTrains= ' + newTrainz);
         let minutesTill = index - nTime;
-        console.log('TILL: ' + minutesTill);
+        // console.log('TILL: ' + minutesTill);
         nextTrainArray.push(newTrainz, minutesTill)
         return nextTrainArray;
       }
